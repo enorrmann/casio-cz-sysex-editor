@@ -52,7 +52,7 @@
 
   <script>
     var hexCompleto = "F0 44 00 00 70 20 60 06 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
-    var hexTest = "00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
+    var hexTest = "00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
     var sysexHeader = "F0 44 00 00 70 20"; // syex initial, last 20 is program change request
     var sysexProgram = "60";  // 60 current working memory
 
@@ -214,6 +214,40 @@
       return splitHexValue(`${byte1.toString(16).toUpperCase().padStart(2, '0')} ${byte2.toString(16).toUpperCase().padStart(2, '0')}`);
     }
 
+    function getDcaKeyFollow(key) {
+      // Mapas para los bytes correspondientes
+      const firstByteMap = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"];
+      const secondByteMap = ["00", "08", "11", "1A", "24", "2F", "3A", "45", "52", "5F"];
+
+      // Validación de entrada
+      if (key < 0 || key > 9) {
+        return "Invalid key follow value. Please use a number between 0 and 9.";
+      }
+
+      // Obtenemos los bytes correspondientes
+      const firstByte = firstByteMap[key];
+      const secondByte = secondByteMap[key];
+
+      return splitHexValue(`${firstByte} ${secondByte}`);
+    }
+    
+    function getDcwKeyFollow(key) {
+      // Mapas para los bytes correspondientes
+      const firstByteMap = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"];
+      const secondByteMap = ["00", "1F", "2C", "39", "46", "53", "60", "6E", "92", "FF"];
+
+      // Validación de entrada
+      if (key < 0 || key > 9) {
+        return "Invalid key follow value. Please use a number between 0 and 9.";
+      }
+
+      // Obtenemos los bytes correspondientes
+      const firstByte = firstByteMap[key];
+      const secondByte = secondByteMap[key];
+
+      return splitHexValue(`${firstByte} ${secondByte}`);
+    }
+
     var getSysex = function () {
       var octaveAndLine = getOctaveAndLineSelect(0, 11);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
@@ -231,6 +265,8 @@
         getVibratoRate(0),
         getVibratoDepth(0),
         getDcoWaveform(1, 0, 'ring'),
+        getDcaKeyFollow(5),
+        getDcwKeyFollow(2),
         hexTest);
     }
 
