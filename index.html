@@ -52,7 +52,7 @@
 
   <script>
     var hexCompleto = "F0 44 00 00 70 20 60 06 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
-    var hexTest = "02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
+    var hexTest = "00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
     var sysexHeader = "F0 44 00 00 70 20"; // syex initial, last 20 is program change request
     var sysexProgram = "60";  // 60 current working memory
 
@@ -145,11 +145,46 @@
       console.log(splitHexValue(returnValue));
       return splitHexValue(returnValue);
     }
+
+    var getVibratoWaveNumber = function (waveform) {
+      const waveNumberToByte = {
+        1: "08",
+        2: "04",
+        3: "20",
+        4: "02"
+      };
+      return splitHexValue(waveNumberToByte[waveform]);
+    }
+
+    var getVibratoDelayTime = function (time) {
+      return splitHexValue("00 00 00"); // TODO, 3 bytes
+    }
+
+    var getVibratoRate = function (time) {
+      return splitHexValue("00 00 00"); // TODO, 3 bytes
+    }
+
+    var getVibratoDepth = function (time) {
+      return splitHexValue("00 00 00"); // TODO, 3 bytes
+    }
+
     var getSysex = function () {
       var octaveAndLine = getOctaveAndLineSelect(0, 2);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
       var detuneRange = getDetuneRange(17, 2, 10);
-      return concat(sysexHeader, sysexProgram, octaveAndLine, detune, detuneRange, hexTest);
+      var vibratoWaveNmber = getVibratoWaveNumber(3);
+      var vibTime = getVibratoDelayTime(0);
+      return concat(
+        sysexHeader,
+        sysexProgram,
+        octaveAndLine,
+        detune,
+        detuneRange,
+        vibratoWaveNmber,
+        vibTime,
+        getVibratoRate(0),
+        getVibratoDepth(0),
+        hexTest);
     }
 
 
