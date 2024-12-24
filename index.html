@@ -52,20 +52,25 @@
 
   <script>
     var hexCompleto = "F0 44 00 00 70 20 60 06 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
-    var hexTest = "00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
+    var hexTest = "02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
     var sysexHeader = "F0 44 00 00 70 20"; // syex initial, last 20 is program change request
     var sysexProgram = "60";  // 60 current working memory
 
     // all values are returned as "half bytes", so instead of sending 5F we send 0F 05
-    function splitHexValue(hexValue) {
-      // Ensure input is in correct format
-      const cleanHex = hexValue.toString().toUpperCase().replace(/[^0-9A-F]/g, '');
-      if (cleanHex.length !== 2) throw new Error('Input must be a 2-digit hex value');
+    function splitHexValue(hexValues) {
+      // Split input into individual hex values
+      const hexArray = hexValues.split(' ');
 
-      const firstChar = cleanHex[0];
-      const secondChar = cleanHex[1];
+      // Process each hex value and join results
+      return hexArray.map(hex => {
+        const cleanHex = hex.toString().toUpperCase().replace(/[^0-9A-F]/g, '');
+        if (cleanHex.length !== 2) throw new Error('Each hex value must be 2 digits');
 
-      return `0${secondChar} 0${firstChar}`;
+        const firstChar = cleanHex[0];
+        const secondChar = cleanHex[1];
+
+        return `0${secondChar} 0${firstChar}`;
+      }).join(' ');
     }
 
     function getOctaveAndLineSelect(octave, lineSelect) {
@@ -123,9 +128,28 @@
     function concat(...args) {
       return args.join(' ');
     }
+
+    // TODO verificar valor fine
+    function getDetuneRange(fine, oct, note) {
+      // Validate inputs
+      if (fine < 0 || fine > 60) throw new Error('Fine must be between 0 and 60');
+      if (oct < 0 || oct > 3) throw new Error('Octave must be between 0 and 3');
+      if (note < 0 || note > 11) throw new Error('Note must be between 0 and 11');
+
+      // Calculate first byte (fine)
+      let firstByte = (fine * 4).toString(16).padStart(2, '0');
+
+      // Calculate second byte (oct and note)
+      const secondByte = (oct * 12 + note).toString(16).padStart(2, '0');
+      var returnValue = firstByte.toUpperCase() + " " + secondByte.toUpperCase();
+      console.log(splitHexValue(returnValue));
+      return splitHexValue(returnValue);
+    }
     var getSysex = function () {
       var octaveAndLine = getOctaveAndLineSelect(0, 2);
-      return concat(sysexHeader, sysexProgram,octaveAndLine, hexTest);
+      var detune = splitHexValue("01"); // 00 is +, 01 is -
+      var detuneRange = getDetuneRange(17, 2, 10);
+      return concat(sysexHeader, sysexProgram, octaveAndLine, detune, detuneRange, hexTest);
     }
 
 
