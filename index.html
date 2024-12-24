@@ -58,7 +58,6 @@
 
     // all values are returned as "half bytes", so instead of sending 5F we send 0F 05
     function splitHexValue(hexValues) {
-      console.log(hexValues);
       // Split input into individual hex values
       const hexArray = hexValues.split(' ');
 
@@ -143,7 +142,6 @@
       // Calculate second byte (oct and note)
       const secondByte = (oct * 12 + note).toString(16).padStart(2, '0');
       var returnValue = firstByte.toUpperCase() + " " + secondByte.toUpperCase();
-      console.log(splitHexValue(returnValue));
       return splitHexValue(returnValue);
     }
 
@@ -199,7 +197,7 @@
 
       let firstBits = waveforms[first];
       let secondBits = waveforms[second];
-      let waveState = second>=1? "10" : "00"; // if second wave is present, 10, else 00
+      let waveState = second >= 1 ? "10" : "00"; // if second wave is present, 10, else 00
       let tail = "00";
       if (first == 6 || second == 6) tail = "01";
       if (first == 7 || second == 7) tail = "10";
@@ -207,14 +205,9 @@
 
       // Modulación
       const modBits = modulationBits[modulation];
-const padding = "000";
+      const padding = "000";
       // Construcción de los bytes finales
-      const binaryString = firstBits + secondBits + waveState+tail+modBits+padding;
-      console.log(firstBits);
-      console.log(secondBits);
-      console.log(waveState);
-      console.log(tail);
-      console.log(modBits);
+      const binaryString = firstBits + secondBits + waveState + tail + modBits + padding;
       const byte1 = parseInt(binaryString.slice(0, 8), 2);
       const byte2 = parseInt(binaryString.slice(8, 16), 2);
 
@@ -237,7 +230,7 @@ const padding = "000";
         vibTime,
         getVibratoRate(0),
         getVibratoDepth(0),
-        getDcoWaveform(1,1,'noise'),
+        getDcoWaveform(1, 0, 'ring'),
         hexTest);
     }
 
