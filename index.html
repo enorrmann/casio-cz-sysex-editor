@@ -52,12 +52,13 @@
 
   <script>
     var hexCompleto = "F0 44 00 00 70 20 60 06 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
-    var hexTest = "00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
+    var hexTest = "00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
     var sysexHeader = "F0 44 00 00 70 20"; // syex initial, last 20 is program change request
     var sysexProgram = "60";  // 60 current working memory
 
     // all values are returned as "half bytes", so instead of sending 5F we send 0F 05
     function splitHexValue(hexValues) {
+      console.log(hexValues);
       // Split input into individual hex values
       const hexArray = hexValues.split(' ');
 
@@ -168,8 +169,60 @@
       return splitHexValue("00 00 00"); // TODO, 3 bytes
     }
 
+    function getDcoWaveform(first, second, modulation) {
+      // Validación de entradas
+      if (first < 0 || first > 8 || second < 0 || second > 8) {
+        return "Invalid first or second waveform number. Please use numbers between 1 and 8.";
+      }
+
+      const modulationBits = {
+        none: "000",
+        ring: "100",
+        noise: "011"
+      };
+
+      const waveforms = {
+        0: "000",
+        1: "000",
+        2: "001",
+        3: "010",
+        4: "100",
+        5: "101",
+        6: "110",
+        7: "110",
+        8: "110"
+      };
+
+      if (!modulationBits[modulation]) {
+        return "Invalid modulation type. Please use 'none', 'ring', or 'noise'.";
+      }
+
+      let firstBits = waveforms[first];
+      let secondBits = waveforms[second];
+      let waveState = second>=1? "10" : "00"; // if second wave is present, 10, else 00
+      let tail = "00";
+      if (first == 6 || second == 6) tail = "01";
+      if (first == 7 || second == 7) tail = "10";
+      if (first == 8 || second == 8) tail = "11";
+
+      // Modulación
+      const modBits = modulationBits[modulation];
+const padding = "000";
+      // Construcción de los bytes finales
+      const binaryString = firstBits + secondBits + waveState+tail+modBits+padding;
+      console.log(firstBits);
+      console.log(secondBits);
+      console.log(waveState);
+      console.log(tail);
+      console.log(modBits);
+      const byte1 = parseInt(binaryString.slice(0, 8), 2);
+      const byte2 = parseInt(binaryString.slice(8, 16), 2);
+
+      return splitHexValue(`${byte1.toString(16).toUpperCase().padStart(2, '0')} ${byte2.toString(16).toUpperCase().padStart(2, '0')}`);
+    }
+
     var getSysex = function () {
-      var octaveAndLine = getOctaveAndLineSelect(0, 2);
+      var octaveAndLine = getOctaveAndLineSelect(0, 11);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
       var detuneRange = getDetuneRange(17, 2, 10);
       var vibratoWaveNmber = getVibratoWaveNumber(3);
@@ -184,6 +237,7 @@
         vibTime,
         getVibratoRate(0),
         getVibratoDepth(0),
+        getDcoWaveform(1,1,'noise'),
         hexTest);
     }
 
