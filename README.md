@@ -1,1 +1,1 @@
-# casio-cz-sysex-editor
+# casio-cz-sysex-editor yes
