@@ -49,10 +49,29 @@
 
 <body>
   <h1>SysEx MIDI Controller</h1>
+  <button onclick="menos()">menos</button>
+  <button onclick="mas()">mas</button>
 
   <script>
+    var valorActual = 29 ;
+    var testHexValue = "00";
+    var mas = function () {
+      valorActual++;
+      testHexValue = valorActual.toString(16).padStart(2, '0').toUpperCase();
+      console.log(valorActual + " " + testHexValue);
+      sendSysEx(getSysex());
+
+    }
+
+    var menos = function () {
+      valorActual--;
+      testHexValue = valorActual.toString(16).padStart(2, '0').toUpperCase();
+      console.log(valorActual + " " + testHexValue);
+      sendSysEx(getSysex());
+
+    }
     var hexCompleto = "F0 44 00 00 70 20 60 06 00 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 02 00 00 00 00 01 00 00 00 00 00 00 02 00 00 00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
-    var hexTest = "00 00 00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
+    var hexTest = "00 00 00 00 07 00 07 07 0F 0F 0C 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 0B 00 00 07 00 0F 07 0F 0F 04 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 0C 00 00 07 00 00 04 00 08 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 0C 00 00 00 0A 00 00 02 00 01 01 00 00 00 00 01 00 07 07 0F 07 0E 0B 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 0C 03 00 00 01 00 0F 07 0A 06 05 0C 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 04 04 00 00 01 00 0F 07 0E 03 01 0E 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 00 04 00 00 F7";
     var sysexHeader = "F0 44 00 00 70 20"; // syex initial, last 20 is program change request
     var sysexProgram = "60";  // 60 current working memory
 
@@ -230,7 +249,7 @@
 
       return splitHexValue(`${firstByte} ${secondByte}`);
     }
-    
+
     function getDcwKeyFollow(key) {
       // Mapas para los bytes correspondientes
       const firstByteMap = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"];
@@ -248,13 +267,39 @@
       return splitHexValue(`${firstByte} ${secondByte}`);
     }
 
+    function getDcaEnvEnd(step) {
+      // Validación de entrada
+      if (step < 1 || step > 8) {
+        return "Invalid step value. Please use a number between 1 and 8.";
+      }
+
+      // El valor del byte es simplemente el paso menos uno en formato hexadecimal
+      const byteValue = (step - 1).toString(16).toUpperCase().padStart(2, "0");
+
+      return splitHexValue(`${byteValue}`);
+    }
+
+    function getRateAndLevel(rate, level) {
+      // Validación de entradas
+      if (rate < 0 || rate > 99 || level < 0 || level > 99) {
+        return "Invalid rate or level value. Please use numbers between 0 and 99.";
+      }
+
+      // Cálculo de los valores hexadecimales
+      const rateHex = Math.trunc((119 * rate) / 99).toString(16).toUpperCase().padStart(2, "0");
+      const levelHex = (level +28).toString(16).toUpperCase().padStart(2, "0");
+      var retval = splitHexValue(`${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex} ${rateHex} ${levelHex}`);
+      return retval;
+    }
+
     var getSysex = function () {
-      var octaveAndLine = getOctaveAndLineSelect(0, 11);
+      var octaveAndLine = getOctaveAndLineSelect(1, 12);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
       var detuneRange = getDetuneRange(17, 2, 10);
       var vibratoWaveNmber = getVibratoWaveNumber(3);
       var vibTime = getVibratoDelayTime(0);
-      return concat(
+
+      var hex = concat(
         sysexHeader,
         sysexProgram,
         octaveAndLine,
@@ -264,14 +309,43 @@
         vibTime,
         getVibratoRate(0),
         getVibratoDepth(0),
-        getDcoWaveform(1, 0, 'ring'),
+        getDcoWaveform(2, 3, 'noise'),
         getDcaKeyFollow(5),
         getDcwKeyFollow(2),
-        hexTest);
+        getDcaEnvEnd(8),
+        getRateAndLevel(49, 77)
+
+
+      );
+
+      hex = concat(hex, hexCompleto.substring(hex.length));
+      return hex;
     }
 
 
+    // Initialize MIDI and get the first output
+    async function initializeMIDI() {
+      try {
+        const midiAccess = await navigator.requestMIDIAccess({ sysex: true });
+        const outputs = midiAccess.outputs.values();
+        firstOutput = outputs.next().value;
+        firstOutput = outputs.next().value;
+
+        if (!firstOutput) {
+          throw new Error('No MIDI output found');
+        }
+        sendSysEx(getSysex());
+
+        return firstOutput;
+      } catch (error) {
+        console.error('MIDI initialization error:', error);
+        return null;
+      }
+    }
+
+    // Send SysEx data to the MIDI output
     async function sendSysEx(hexString) {
+      var midiOutput = firstOutput;
       try {
         // Convert hex string to Uint8Array
         const cleanHex = hexString.replace(/\s+/g, '');
@@ -283,16 +357,11 @@
           cleanHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16))
         );
 
-        const midiAccess = await navigator.requestMIDIAccess({ sysex: true });
-        const outputs = midiAccess.outputs.values();
-        var firstOutput = outputs.next().value;
-        firstOutput = outputs.next().value;
-
-        if (!firstOutput) {
-          throw new Error('No MIDI output found');
+        if (!midiOutput) {
+          throw new Error('No MIDI output provided');
         }
 
-        firstOutput.send(sysexData);
+        midiOutput.send(sysexData);
         return true;
       } catch (error) {
         console.error('SysEx send error:', error);
@@ -300,7 +369,9 @@
       }
     }
 
-    sendSysEx(getSysex());
+    var firstOutput;
+    initializeMIDI();
+    
 
   </script>
 </body>
