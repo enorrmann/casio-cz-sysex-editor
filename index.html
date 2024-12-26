@@ -279,7 +279,7 @@
       return splitHexValue(`${byteValue}`);
     }
 
-    function getRateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
+    function getDCARateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
       rate5, level5, rate6, level6, rate7, level7, rate8, level8, stepSus) {
       // Validación de stepSus
       if (stepSus < 1 || stepSus > 8) {
@@ -309,7 +309,10 @@
           adjustedLevel += 128;
         }
 
-        const levelHex = (adjustedLevel + 28).toString(16).toUpperCase().padStart(2, "0");
+        // if DCA
+        adjustedLevel += 28;
+
+        const levelHex = (adjustedLevel).toString(16).toUpperCase().padStart(2, "0");
         const hexPair = `${rateHex} ${levelHex}`;
 
         // Agregar el resultado de splitHexValue al array
@@ -319,8 +322,50 @@
       // Unir todos los valores con espacios
       return resultValues.join(' ');
     }
+
+    function getDCWRateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
+      rate5, level5, rate6, level6, rate7, level7, rate8, level8, stepSus) {
+      // Validación de stepSus
+      if (stepSus < 1 || stepSus > 8) {
+        return "Invalid stepSus value. Please use numbers between 1 and 8.";
+      }
+
+      // Arrays para procesar los parámetros en pares
+      const rates = [rate1, rate2, rate3, rate4, rate5, rate6, rate7, rate8];
+      const levels = [level1, level2, level3, level4, level5, level6, level7, level8];
+
+      // Validación de todas las entradas
+      for (let i = 0; i < 8; i++) {
+        if (rates[i] < 0 || rates[i] > 99 || levels[i] < 0 || levels[i] > 99) {
+          return `Invalid rate or level value at position ${i + 1}. Please use numbers between 0 and 99.`;
+        }
+      }
+
+      let resultValues = [];
+
+      // Procesamiento de cada par de rate y level
+      for (let i = 0; i < 8; i++) {
+        const rateHex = Math.trunc((119 * rates[i]) / 99).toString(16).toUpperCase().padStart(2, "0");
+
+        // Ajustar el level si corresponde al stepSus
+        let adjustedLevel = levels[i];
+        if (i === stepSus - 1) {  // stepSus - 1 porque el array es base 0
+          adjustedLevel += 128;
+        }
+
+        const levelHex = (adjustedLevel).toString(16).toUpperCase().padStart(2, "0");
+        const hexPair = `${rateHex} ${levelHex}`;
+
+        // Agregar el resultado de splitHexValue al array
+        resultValues.push(splitHexValue(hexPair));
+      }
+
+      // Unir todos los valores con espacios
+      return resultValues.join(' ');
+    }
+
     var getSysex = function () {
-      var octaveAndLine = getOctaveAndLineSelect(1, 11);
+      var octaveAndLine = getOctaveAndLineSelect(0, 11);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
       var detuneRange = getDetuneRange(17, 2, 10);
       var vibratoWaveNmber = getVibratoWaveNumber(3);
@@ -340,9 +385,9 @@
         getDcaKeyFollow(3),
         getDcwKeyFollow(4),
         getEnvEnd(5),
-        getRateAndLevel(55, 18,56, 78,40, 48,20, 68,55, 28,30, 68,98, 98,55, 98,2),
+        getDCARateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2),
         getEnvEnd(7),
-        getRateAndLevel(55, 98,55, 98,55, 98,55, 98,55, 98,55, 98,55, 98,55, 98,2)
+        getDCWRateAndLevel(55, 18, 55, 77, 55, 20, 55, 1, 55, 99, 55, 50, 55, 23, 55, 9, 2)
 
 
       );
