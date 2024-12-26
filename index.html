@@ -63,7 +63,6 @@
     var mas = function () {
       valorActual++;
       testHexValue = valorActual.toString(16).padStart(2, '0').toUpperCase();
-      console.log(valorActual + " " + testHexValue);
       sendSysEx(getSysex());
 
     }
@@ -71,7 +70,6 @@
     var menos = function () {
       valorActual--;
       testHexValue = valorActual.toString(16).padStart(2, '0').toUpperCase();
-      console.log(valorActual + " " + testHexValue);
       sendSysEx(getSysex());
 
     }
@@ -443,8 +441,8 @@
         getVibratoRate(0),
         getVibratoDepth(0),
         getDcoWaveform(rnd(5), rnd(8), 'ring'),
-        getDcaKeyFollow(3),
-        getDcwKeyFollow(4),
+        getDcaKeyFollow(rnd(9)),
+        getDcwKeyFollow(rnd(9)),
         getEnvEnd(rnd(8)),
         getDCARateAndLevel(99, 99, 99, 99, rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), 1),
         getEnvEnd(rnd(8)),
@@ -452,8 +450,8 @@
         getEnvEnd(rnd(8)),
         getDCORateAndLevel(rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(8)),
         getDcoWaveform(rnd(5), rnd(8), 'none'),
-        getDcaKeyFollow(3),
-        getDcwKeyFollow(4),
+        getDcaKeyFollow(rnd(9)),
+        getDcwKeyFollow(rnd(9)),
         getEnvEnd(rnd(8)),
         getDCARateAndLevel(99, 99, 99, 99, rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), 1),
         getEnvEnd(rnd(8)),
@@ -496,7 +494,6 @@
         // Convert hex string to Uint8Array
         const cleanHex = hexString.replace(/\s+/g, '');
         if (!/^[0-9A-Fa-f]+$/.test(cleanHex)) {
-          console.log(cleanHex);
           throw new Error('Invalid hex string');
         }
 
