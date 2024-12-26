@@ -345,7 +345,8 @@
 
       // Procesamiento de cada par de rate y level
       for (let i = 0; i < 8; i++) {
-        const rateHex = Math.trunc((119 * rates[i]) / 99).toString(16).toUpperCase().padStart(2, "0");
+        const rate = Math.trunc(((119 * rates[i]) )/ 99) + 8;
+        const rateHex = rate.toString(16).toUpperCase().padStart(2, "0");
 
         // Ajustar el level si corresponde al stepSus
         let adjustedLevel = levels[i];
@@ -386,8 +387,8 @@
         getDcwKeyFollow(4),
         getEnvEnd(5),
         getDCARateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2),
-        getEnvEnd(7),
-        getDCWRateAndLevel(55, 18, 55, 77, 55, 20, 55, 1, 55, 99, 55, 50, 55, 23, 55, 9, 2)
+        getEnvEnd(8),
+        getDCWRateAndLevel(55, 10, 44, 20, 22, 30, 11, 40, 77, 50, 99, 60, 1, 70, 2, 80, 2)
 
 
       );
