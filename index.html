@@ -53,6 +53,11 @@
   <button onclick="mas()">mas</button>
 
   <script>
+
+    const rnd = function (max) {
+      return Math.floor(Math.random() * (max));
+    }
+
     var valorActual = 99;
     var testHexValue = "00";
     var mas = function () {
@@ -269,10 +274,12 @@
 
     function getEnvEnd(step) {
       // Validación de entrada
-      if (step < 1 || step > 8) {
-        return "Invalid step value. Please use a number between 1 and 8.";
+      if (step < 1) {
+        step = 1;
       }
-
+      if (step > 8) {
+        step = 8;
+      }
       // El valor del byte es simplemente el paso menos uno en formato hexadecimal
       const byteValue = (step - 1).toString(16).toUpperCase().padStart(2, "0");
 
@@ -282,8 +289,11 @@
     function getDCARateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
       rate5, level5, rate6, level6, rate7, level7, rate8, level8, stepSus) {
       // Validación de stepSus
-      if (stepSus < 1 || stepSus > 8) {
-        return "Invalid stepSus value. Please use numbers between 1 and 8.";
+      if (stepSus < 1) {
+        stepSus = 1;
+      }
+      if (stepSus > 8) {
+        stepSus = 8;
       }
 
       // Arrays para procesar los parámetros en pares
@@ -326,10 +336,12 @@
     function getDCWRateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
       rate5, level5, rate6, level6, rate7, level7, rate8, level8, stepSus) {
       // Validación de stepSus
-      if (stepSus < 1 || stepSus > 8) {
-        return "Invalid stepSus value. Please use numbers between 1 and 8.";
+      if (stepSus < 1) {
+        stepSus = 1;
       }
-
+      if (stepSus > 8) {
+        stepSus = 8;
+      }
       // Arrays para procesar los parámetros en pares
       const rates = [rate1, rate2, rate3, rate4, rate5, rate6, rate7, rate8];
       const levels = [level1, level2, level3, level4, level5, level6, level7, level8];
@@ -368,8 +380,11 @@
     function getDCORateAndLevel(rate1, level1, rate2, level2, rate3, level3, rate4, level4,
       rate5, level5, rate6, level6, rate7, level7, rate8, level8, stepSus) {
       // Validación de stepSus
-      if (stepSus < 1 || stepSus > 8) {
-        return "Invalid stepSus value. Please use numbers between 1 and 8.";
+      if (stepSus < 1) {
+        stepSus = 1;
+      }
+      if (stepSus > 8) {
+        stepSus = 8;
       }
 
       // Arrays para procesar los parámetros en pares
@@ -411,7 +426,7 @@
     }
 
     var getSysex = function () {
-      var octaveAndLine = getOctaveAndLineSelect(0, 11);
+      var octaveAndLine = getOctaveAndLineSelect(0, 12);
       var detune = splitHexValue("01"); // 00 is +, 01 is -
       var detuneRange = getDetuneRange(17, 2, 10);
       var vibratoWaveNmber = getVibratoWaveNumber(3);
@@ -427,24 +442,24 @@
         vibTime,
         getVibratoRate(0),
         getVibratoDepth(0),
-        getDcoWaveform(1, 3, 'ring'),
+        getDcoWaveform(rnd(5), rnd(8), 'ring'),
         getDcaKeyFollow(3),
         getDcwKeyFollow(4),
-        getEnvEnd(5),
-        getDCARateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2),
-        getEnvEnd(8),
-        getDCWRateAndLevel(55, 10, 44, 20, 22, 30, 11, 40, 77, 50, 99, 60, 1, 70, 2, 80, 2),
-        getEnvEnd(8),
-        getDCORateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2),
-        getDcoWaveform(1, 3, 'none'),
+        getEnvEnd(rnd(8)),
+        getDCARateAndLevel(99, 99, 99, 99, rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), 1),
+        getEnvEnd(rnd(8)),
+        getDCWRateAndLevel(rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(8)),
+        getEnvEnd(rnd(8)),
+        getDCORateAndLevel(rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(8)),
+        getDcoWaveform(rnd(5), rnd(8), 'none'),
         getDcaKeyFollow(3),
         getDcwKeyFollow(4),
-        getEnvEnd(5),
-        getDCARateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2),
-        getEnvEnd(8),
-        getDCWRateAndLevel(55, 10, 44, 20, 22, 30, 11, 40, 77, 50, 99, 60, 1, 70, 2, 80, 2),
-        getEnvEnd(8),
-        getDCORateAndLevel(55, 18, 56, 78, 40, 48, 20, 68, 55, 28, 30, 68, 98, 98, 55, 98, 2)
+        getEnvEnd(rnd(8)),
+        getDCARateAndLevel(99, 99, 99, 99, rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), 1),
+        getEnvEnd(rnd(8)),
+        getDCWRateAndLevel(rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(8)),
+        getEnvEnd(rnd(8)),
+        getDCORateAndLevel(rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(99), rnd(8))
 
 
       );
@@ -481,6 +496,7 @@
         // Convert hex string to Uint8Array
         const cleanHex = hexString.replace(/\s+/g, '');
         if (!/^[0-9A-Fa-f]+$/.test(cleanHex)) {
+          console.log(cleanHex);
           throw new Error('Invalid hex string');
         }
 
