@@ -53,7 +53,7 @@
   <button onclick="mas()">mas</button>
 
   <script>
-    var valorActual = 29;
+    var valorActual = 99;
     var testHexValue = "00";
     var mas = function () {
       valorActual++;
@@ -349,7 +349,8 @@
         const rateHex = rate.toString(16).toUpperCase().padStart(2, "0");
 
         // Ajustar el level si corresponde al stepSus
-        let adjustedLevel = levels[i];
+        //let adjustedLevel = levels[i];
+        let adjustedLevel =  Math.trunc(127 * (levels[i]-1)/ 99)+1;
         if (i === stepSus - 1) {  // stepSus - 1 porque el array es base 0
           adjustedLevel += 128;
         }
