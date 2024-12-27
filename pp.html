@@ -151,28 +151,25 @@
 
 
             <div class="toggle-container">
-                <button class="toggle-btn" onclick="toggleButton(0)">
-                    1
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(0)">1 </button>
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(1)"> 2
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(1)">
-                    2
-                </button>
-                <button class="toggle-btn" onclick="toggleButton(2)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(2)">
                     3
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(3)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(3)">
                     4
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(4)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(4)">
                     5
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(5)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(5)">
                     6
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(6)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(6)">
                     7
                 </button>
-                <button class="toggle-btn" onclick="toggleButton(7)">
+                <button class="toggle-btn btn-dco1" onclick="toggleButton(7)">
                     8
                 </button>
 
@@ -216,6 +213,8 @@
 
                 sliderGroup.innerHTML = `
                     <label class="slider-label">R${numero}:</label>
+                    <button class="toggle-btn btn-sus-env1" onclick="toggleSustain(${numero})">S</button>
+                    <button class="toggle-btn btn-end-env1" onclick="toggleEnd(${numero})">E</button>
                     <div class="slider-vertical" id="rate${numero}"></div>
                     <label class="slider-label">L${numero}:</label>
                     <div class="slider-vertical" id="level${numero}"></div>
@@ -239,7 +238,6 @@
                     });
                     slider.noUiSlider.on('set.one', function () {
                         envValues[slider.id] = this.get();
-                        console.log(envValues);
 
                     });
 
@@ -249,20 +247,35 @@
             for (let i = 1; i <= 8; i++) {
                 crearSlidersPaso(i);
             }
+
+            // Activar el primer botón por defecto
+            toggleButton(0);
+            toggleSustain(1);
+            toggleEnd(3);
         });
 
 
 
         /*botones */
         function toggleButton(index) {
-            const buttons = document.querySelectorAll('.toggle-btn');
+            const buttons = document.querySelectorAll('.btn-dco1');
             buttons.forEach((btn, i) => {
                 btn.classList.toggle('active', i === index);
             });
         }
+        function toggleSustain(index) {
+            const buttons = document.querySelectorAll('.btn-sus-env1');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index - 1);
+            });
+        }
+        function toggleEnd(index) {
+            const buttons = document.querySelectorAll('.btn-end-env1');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index - 1);
+            });
+        }
 
-        // Activar el primer botón por defecto
-        toggleButton(0);
     </script>
 </body>
 
