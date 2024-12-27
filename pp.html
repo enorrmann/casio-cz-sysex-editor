@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Head section remains the same until styles -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintetizador Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+    <style>
+        /* Previous styles remain the same until .noUi-vertical .noUi-handle */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #282828;
+            color: #eee;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .dco {
+            border: 1px solid #444;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .forma-onda {
+            margin-bottom: 25px;
+        }
+
+        .forma-onda select {
+            padding: 5px 10px;
+            margin-left: 10px;
+            background: #444;
+            color: #eee;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+
+        .envelope {
+            margin-top: 25px;
+        }
+
+        .sliders-container {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            padding: 20px 5px;
+            justify-items: center;
+        }
+
+        .slider-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slider-label {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .slider-vertical {
+            height: 150px;
+            margin: 10px auto;
+        }
+
+        .noUi-vertical {
+            width: 18px !important;
+        }
+
+        .noUi-vertical .noUi-handle {
+            width: 34px;
+            height: 38px;
+            right: -8px;
+            bottom: -9px;
+            border-radius: 4px;
+            background: #666;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .noUi-handle:hover {
+            background: #777;
+        }
+
+        .noUi-vertical .noUi-handle:before,
+        .noUi-vertical .noUi-handle:after {
+            display: none;
+        }
+
+        .noUi-target {
+            background: #444;
+            border-radius: 4px;
+            border: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<!-- Rest of the HTML and JavaScript remains exactly the same -->
+
+<body>
+    <div class="contenedor">
+        <div class="dco">
+            <h2>DCO</h2>
+            <div class="forma-onda">
+                <label for="onda">Forma de Onda:</label>
+                <select id="onda">
+                    <option value="1">Seno</option>
+                    <option value="2">Triangular</option>
+                    <option value="3">Cuadrada</option>
+                    <option value="4">Sierra</option>
+                    <option value="5">Pulso</option>
+                    <option value="6">Ruido Blanco</option>
+                    <option value="7">Ruido Rosa</option>
+                </select>
+            </div>
+            <div class="envelope">
+                <h3>Envelope</h3>
+                <div class="sliders-container">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        // number of decimal places 
+        const decimals = 0;
+
+        // format object
+        const numberFormat = {
+            // 'to' the formatted value. Receives a number.
+            to: function (value) {
+                return value.toFixed(decimals);
+            },
+            // 'from' the formatted value.
+            // Receives a string, should return a number.
+            from: function (value) {
+                return Number(value);;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const slidersContainer = document.querySelector('.sliders-container');
+
+            function crearSlidersPaso(numero) {
+                const sliderGroup = document.createElement('div');
+                sliderGroup.classList.add('slider-group');
+
+                sliderGroup.innerHTML = `
+                    <label class="slider-label">R${numero}:</label>
+                    <div class="slider-vertical" id="rate${numero}"></div>
+                    <label class="slider-label">L${numero}:</label>
+                    <div class="slider-vertical" id="level${numero}"></div>
+                `;
+                slidersContainer.appendChild(sliderGroup);
+
+                const rateSlider = document.getElementById(`rate${numero}`);
+                const levelSlider = document.getElementById(`level${numero}`);
+
+                [rateSlider, levelSlider].forEach(slider => {
+                    noUiSlider.create(slider, {
+                        start: 50,
+                        orientation: 'vertical',
+                        direction: 'rtl',
+                        tooltips: [false],
+                        range: {
+                            'min': 0,
+                            'max': 99
+                        },
+                        format: numberFormat
+                    });
+                    slider.noUiSlider.on('set.one', function () {
+                        console.log(this.get()); 
+                        console.log(numero);
+                    });
+
+                });
+            }
+
+            for (let i = 1; i <= 8; i++) {
+                crearSlidersPaso(i);
+            }
+        });
+    </script>
+</body>
+
+</html>
