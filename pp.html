@@ -8,6 +8,7 @@
     <title>Sintetizador Web</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+
     <style>
         /* Previous styles remain the same until .noUi-vertical .noUi-handle */
         body {
@@ -24,13 +25,13 @@
 
         .contenedor {
             width: 100%;
-            max-width: 900px;
-            padding: 20px;
+            /*max-width: 900px;*/
+            padding: 10px;
         }
 
         .dco {
             border: 1px solid #444;
-            padding: 30px;
+            padding: 10px;
             border-radius: 8px;
             background-color: #333;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -50,7 +51,7 @@
         }
 
         .envelope {
-            margin-top: 25px;
+            margin-top: 5px;
         }
 
         .sliders-container {
@@ -76,7 +77,7 @@
         }
 
         .slider-vertical {
-            height: 150px;
+            height: 100px;
             margin: 10px auto;
         }
 
@@ -86,7 +87,7 @@
 
         .noUi-vertical .noUi-handle {
             width: 34px;
-            height: 38px;
+            height: 40px;
             right: -8px;
             bottom: -9px;
             border-radius: 4px;
@@ -111,6 +112,33 @@
             border: none;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        /* botones*/
+
+        .toggle-container {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .toggle-btn {
+            padding: 10px 10px;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #357abd;
+        }
     </style>
 </head>
 <!-- Rest of the HTML and JavaScript remains exactly the same -->
@@ -119,17 +147,36 @@
     <div class="contenedor">
         <div class="dco">
             <h2>DCO</h2>
-            <div class="forma-onda">
-                <label for="onda">Forma de Onda:</label>
-                <select id="onda">
-                    <option value="1">Seno</option>
-                    <option value="2">Triangular</option>
-                    <option value="3">Cuadrada</option>
-                    <option value="4">Sierra</option>
-                    <option value="5">Pulso</option>
-                    <option value="6">Ruido Blanco</option>
-                    <option value="7">Ruido Rosa</option>
-                </select>
+
+
+
+            <div class="toggle-container">
+                <button class="toggle-btn" onclick="toggleButton(0)">
+                    1
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(1)">
+                    2
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(2)">
+                    3
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(3)">
+                    4
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(4)">
+                    5
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(5)">
+                    6
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(6)">
+                    7
+                </button>
+                <button class="toggle-btn" onclick="toggleButton(7)">
+                    8
+                </button>
+
+
             </div>
             <div class="envelope">
                 <h3>Envelope</h3>
@@ -144,6 +191,8 @@
 
         // number of decimal places 
         const decimals = 0;
+
+        var envValues = {};
 
         // format object
         const numberFormat = {
@@ -189,8 +238,9 @@
                         format: numberFormat
                     });
                     slider.noUiSlider.on('set.one', function () {
-                        console.log(this.get()); 
-                        console.log(numero);
+                        envValues[slider.id] = this.get();
+                        console.log(envValues);
+
                     });
 
                 });
@@ -200,6 +250,19 @@
                 crearSlidersPaso(i);
             }
         });
+
+
+
+        /*botones */
+        function toggleButton(index) {
+            const buttons = document.querySelectorAll('.toggle-btn');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        // Activar el primer botón por defecto
+        toggleButton(0);
     </script>
 </body>
 
