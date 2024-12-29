@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Word Combiner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Dale play</h1>
+    <p>y lo que toca toca eh !</p>
+    <button onclick="combineWords()">Masa !</button>
+    <div id="result"></div>
+
+    <script>
+        // Define two arrays with words
+        const list1 = ["besar", "oler", "lamer", "apretar", "chirlear", "frotar", "mirar intensamente", "chamuyar", "Tocar", "Acariciar", "Presionar", "Golpear", "Rascar", "Estirar", "Masajear", "Doblar", "Rotar", "Frotar",
+            "Empujar", "Tirar", "Apretar", "Cepillar", "Lavar", "Enjuagar", "Secar", "Sacudir", "Hundir", "Pinchar"];
+        const list2 = ["nariz", "muslos", "pies", "culo", "genital", "tetas", "pelo", "ojos", "Cabeza", "Brazo", "Pierna", "Pie", "Mano", "Dedo", "Dedo del pie", "Espalda", "Cuello", "Hombro",
+            "Pecho", "Cintura", "Cadera", "Rodilla", "Codo", "Muñeca", "Tobillo", "Pulgar", "Palma", "Frente"];
+
+        // Function to combine words randomly
+        function combineWords() {
+            const randomWord1 = list1[Math.floor(Math.random() * list1.length)];
+            const randomWord2 = list2[Math.floor(Math.random() * list2.length)];
+            document.getElementById('result').textContent = `${randomWord1} ${randomWord2}`;
+        }
+    </script>
+</body>
+
+</html>
