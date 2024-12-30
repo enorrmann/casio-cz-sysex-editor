@@ -15,7 +15,11 @@ function splitHexValue(hexValues) {
     // Process each hex value and join results
     return hexArray.map(hex => {
         const cleanHex = hex.toString().toUpperCase().replace(/[^0-9A-F]/g, '');
-        if (cleanHex.length !== 2) throw new Error('Each hex value must be 2 digits');
+        if (cleanHex.length !== 2) {
+            //throw new Error('Each hex value must be 2 digits');
+            console.error('Each hex value must be 2 digits');
+            return;
+        }
 
         const firstChar = cleanHex[0];
         const secondChar = cleanHex[1];
@@ -440,7 +444,7 @@ var getSysex = function (dco, dcw) {
         getVibratoRate(0),
         getVibratoDepth(0),
 
-        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'none'),           // dco1 waveform
+        getDcoWaveform(dco.waveForm1, dco.waveForm2, 'ring'),           // dco1 waveform
         getDcaKeyFollow(1),                                             // dca1 key follow
         getDcwKeyFollow(1),                                             // dcw1 key follow
 
@@ -470,7 +474,7 @@ var getSysex = function (dco, dcw) {
 
 
 // Initialize MIDI and get the first output
-async function initializeMIDI() {
+/*async function initializeMIDI() {
     try {
         const midiAccess = await navigator.requestMIDIAccess({ sysex: true });
         const outputs = midiAccess.outputs.values();
@@ -485,11 +489,11 @@ async function initializeMIDI() {
         console.error('MIDI initialization error:', error);
         return null;
     }
-}
+}*/
 
 // Send SysEx data to the MIDI output
-async function sendSysEx(hexString) {
-    var midiOutput = firstOutput;
+async function sendSysEx(hexString,midiOutput) {
+    //var midiOutput = firstOutput;
     try {
         // Convert hex string to Uint8Array
         const cleanHex = hexString.replace(/\s+/g, '');
@@ -502,7 +506,8 @@ async function sendSysEx(hexString) {
         );
 
         if (!midiOutput) {
-            throw new Error('No MIDI output provided');
+            console.error('No MIDI output provided');
+            return;
         }
 
         midiOutput.send(sysexData);
@@ -513,6 +518,6 @@ async function sendSysEx(hexString) {
     }
 }
 
-var firstOutput;
-initializeMIDI();
+//var firstOutput;
+//initializeMIDI();
 

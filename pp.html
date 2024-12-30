@@ -140,41 +140,120 @@
             color: white;
             border-color: #357abd;
         }
+    
+    
+    /*midi stuff*/
+    .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .error {
+            color: #dc2626;
+            background-color: #fee2e2;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .info {
+            color: #1f2937;
+            background-color: #f3f4f6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <!-- Rest of the HTML and JavaScript remains exactly the same -->
 
 <body>
     <div class="contenedor">
-        <div class="dco">
-            <h2>Envs</h2>
 
-            <div class="toggle-container">
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,1)"> 1 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,2)"> 2 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,3)"> 3 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,4)"> 4 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,5)"> 5 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,6)"> 6 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,7)"> 7 </button>
-                <button class="toggle-btn btn-dco1" onclick="toggleDcoWaveform(dco1,1,8)"> 8 </button>
-
-
+        <div class="card">
+            <h2>Selector de Puerto MIDI</h2>
+            <div id="midiContent">
+                <select id="midiSelect">
+                    <option value="">Selecciona un puerto MIDI</option>
+                </select>
+                <div id="status" class="info">Buscando dispositivos MIDI...</div>
             </div>
+        </div>
+    
+
+        <div class="dco">
+            <h3>Dco1 Waves</h3>
+            <div class="toggle-container">
+                <button disabled="true" class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,0)"> OFF
+                </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,1)"> 1 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,2)"> 2 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,3)"> 3 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,4)"> 4 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,5)"> 5 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,6)"> 6 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,7)"> 7 </button>
+                <button class="toggle-btn btn-dco1-wave1" onclick="toggleDcoWaveform(dco1,1,8)"> 8 </button>
+            </div>
+            <div class="toggle-container">
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,0)"> OFF </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,1)"> 1 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,2)"> 2 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,3)"> 3 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,4)"> 4 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,5)"> 5 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,6)"> 6 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,7)"> 7 </button>
+                <button class="toggle-btn btn-dco1-wave2" onclick="toggleDcoWaveform(dco1,2,8)"> 8 </button>
+            </div>
+            <h3>Dco2 Waves</h3>
+            <div class="toggle-container">
+                <button disabled="true" class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,0)"> OFF
+                </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,1)"> 1 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,2)"> 2 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,3)"> 3 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,4)"> 4 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,5)"> 5 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,6)"> 6 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,7)"> 7 </button>
+                <button class="toggle-btn btn-dco2-wave1" onclick="toggleDcoWaveform(dco2,1,8)"> 8 </button>
+            </div>
+            <div class="toggle-container">
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,0)"> OFF </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,1)"> 1 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,2)"> 2 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,3)"> 3 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,4)"> 4 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,5)"> 5 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,6)"> 6 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,7)"> 7 </button>
+                <button class="toggle-btn btn-dco2-wave2" onclick="toggleDcoWaveform(dco2,2,8)"> 8 </button>
+            </div>
+
+
             <div class="envelope">
-                <h3>DCO</h3>
+                <h3>DCO 1</h3>
                 <div class="dco1-env-container sliders-container"> </div>
-                <h3>DCW</h3>
+                <h3>DCW 1</h3>
                 <div class="dcw1-env-container sliders-container"> </div>
+                <h3>DAW 1</h3>
+                <div class="dca1-env-container sliders-container"> </div>
             </div>
         </div>
     </div>
 
     <script>
-
+var midiOutput;
         var uiChanged = function () {
-            console.log(dcw1);
-            sendSysEx(getSysex(dco1, dcw1));
+            sendSysEx(getSysex(dco1, dcw1),midiOutput);
         }
 
         function initializeRatesAndLevels(env) {
@@ -194,9 +273,19 @@
 
         var dco1 = { name: 'dco1' };
         var dcw1 = { name: 'dcw1' };
+        var dca1 = { name: 'dca1' };
 
         dco1.env = initializeRatesAndLevels({});
         dcw1.env = initializeRatesAndLevels({});
+        dca1.env = initializeRatesAndLevels({});
+
+        var dco2 = { name: 'dco2' };
+        var dcw2 = { name: 'dcw2' };
+        var dca2 = { name: 'dca2' };
+
+        dco2.env = initializeRatesAndLevels({});
+        dcw2.env = initializeRatesAndLevels({});
+        dca2.env = initializeRatesAndLevels({});
 
         // format object
         const numberFormat = {
@@ -239,7 +328,7 @@
                         start: 50,
                         orientation: 'vertical',
                         direction: 'rtl',
-                        tooltips: [true],
+                        tooltips: [false],
                         range: {
                             'min': 0,
                             'max': 99
@@ -262,29 +351,38 @@
             for (let i = 1; i <= 8; i++) {
                 crearSlidersPaso(dcw1, i);
             }
+            for (let i = 1; i <= 8; i++) {
+                crearSlidersPaso(dca1, i);
+            }
 
             // Activar el primer botón por defecto
             toggleDcoWaveform(dco1, 1, 1);
+            toggleDcoWaveform(dco1, 2, 0);
+            toggleDcoWaveform(dco2, 1, 1);
+            toggleDcoWaveform(dco2, 2, 0);
             toggleSustain(dco1, 1);
             toggleSustain(dcw1, 1);
+            toggleSustain(dca1, 1);
             toggleEnd(dco1, 3);
             toggleEnd(dcw1, 3);
+            toggleEnd(dca1, 2);
         });
 
 
 
         /*botones */
         function toggleDcoWaveform(dco, oscNumber, index) {
-            const buttons = document.querySelectorAll('.btn-'+dco.name);
+            const selector = '.btn-' + dco.name + '-wave' + oscNumber;
+            console.log(selector);
+            const buttons = document.querySelectorAll(selector);
             buttons.forEach((btn, i) => {
-                btn.classList.toggle('active', i === index - 1);
+                btn.classList.toggle('active', i === index);
             });
             dco[`waveForm${oscNumber}`] = index;
 
             uiChanged();
         }
         function toggleSustain(container, index) {
-            console.log(container);
             var env = container.env;
             const buttons = document.querySelectorAll('.btn-sus-' + container.name);
             buttons.forEach((btn, i) => {
@@ -304,6 +402,84 @@
 
         }
 
+
+
+        /* midi stuff*/
+
+        let midiAccess = null;
+        const select = document.getElementById('midiSelect');
+        const status = document.getElementById('status');
+
+        // Inicializar MIDI
+        if (navigator.requestMIDIAccess) {
+            
+            navigator.requestMIDIAccess({ sysex: true })
+                .then(onMIDISuccess)
+                .catch(onMIDIFailure);
+        } else {
+            status.className = 'error';
+            status.textContent = 'Tu navegador no soporta MIDI';
+        }
+
+        // Cuando se obtiene acceso MIDI exitosamente
+        function onMIDISuccess(access) {
+            midiAccess = access;
+
+            // Listar puertos disponibles
+            updateDeviceList();
+
+            // Escuchar cambios en la conexión de dispositivos
+            midiAccess.onstatechange = updateDeviceList;
+        }
+
+        // Si hay un error al acceder a MIDI
+        function onMIDIFailure(error) {
+            status.className = 'error';
+            status.textContent = 'Error al acceder a MIDI: ' + error;
+        }
+
+        // Actualizar lista de dispositivos
+        function updateDeviceList(event) {
+            // Limpiar opciones existentes excepto la primera
+            while (select.options.length > 1) {
+                select.options.remove(1);
+            }
+
+            // Obtener y mostrar puertos de salida
+            const outputs = midiAccess.outputs.values();
+            let hasDevices = false;
+
+            for (let output of outputs) {
+                hasDevices = true;
+                const option = document.createElement('option');
+                option.value = output.id;
+                option.text = output.name + ' ' +output.id;
+                select.add(option);
+            }
+
+            if (hasDevices) {
+                status.className = 'info';
+                status.textContent = 'Dispositivos MIDI encontrados';
+            } else {
+                status.className = 'info';
+                status.textContent = 'No se encontraron dispositivos MIDI';
+            }
+        }
+
+        // Manejar selección de puerto
+        select.addEventListener('change', function (e) {
+            const selectedId = e.target.value;
+            if (selectedId) {
+                midiOutput = Array.from(midiAccess.outputs.values())
+                    .find(output => output.id === selectedId);
+
+                status.className = 'info';
+                status.textContent = `Puerto seleccionado: ${midiOutput.name} ${midiOutput.id}`;
+                console.log('Puerto MIDI seleccionado:', midiOutput.name);
+            } else {
+                midiOutput = null;
+            }
+        });
     </script>
 </body>
 

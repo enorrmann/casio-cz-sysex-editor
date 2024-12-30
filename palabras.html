@@ -34,16 +34,47 @@
 
     <script>
         // Define two arrays with words
-        const list1 = ["besar", "oler", "lamer", "apretar", "chirlear", "frotar", "mirar intensamente", "chamuyar", "Tocar", "Acariciar", "Presionar", "Golpear", "Rascar", "Estirar", "Masajear", "Doblar", "Rotar", "Frotar",
-            "Empujar", "Tirar", "Apretar", "Cepillar", "Lavar", "Enjuagar", "Secar", "Sacudir", "Hundir", "Pinchar"];
+        const list1 = ["besar", "oler", "lamer", "apretar", "chirlear", "frotar", "mirar intensamente", "chamuyar", "Tocar", "Acariciar", "Presionar", "Golpear", "Rascar", "Estirar", "Masajear", "Frotar", "Morder",
+             "Apretar", "Sacudir", "pellizcar"];
         const list2 = ["nariz", "muslos", "pies", "culo", "genital", "tetas", "pelo", "ojos", "Cabeza", "Brazo", "Pierna", "Pie", "Mano", "Dedo", "Dedo del pie", "Espalda", "Cuello", "Hombro",
-            "Pecho", "Cintura", "Cadera", "Rodilla", "Codo", "Muñeca", "Tobillo", "Pulgar", "Palma", "Frente"];
-
+            "Pecho", "Cintura", "Cadera", "Rodilla", "Codo", "Muñeca", "Tobillo", "Pulgar", "Palma", "Frente","clavicula","ombligo","huesito dulce","oreja","un lunar","pera","diente","mejilla"];
+        const adverbiosDeModo = [
+            "rápidamente",
+            "lentamente",
+            "cuidadosamente",
+            "suavemente",
+            "tranquilamente",
+            "silenciosamente",
+            "apresuradamente",
+            "delicadamente",
+            "bruscamente",
+            "amablemente",
+            "alegremente",
+            "tristemente",
+            "ansiosamente",
+            "educadamente",
+            "torpemente",
+            "hábilmente",
+            "cortésmente",
+            "furiosamente",
+            "serenamente",
+            "dulcemente",
+            "velozmente",
+            "cómodamente",
+            "cautelosamente",
+            "gentilmente",
+            "nerviosamente",
+            "ágilmente",
+            "apasionadamente"
+        ];
         // Function to combine words randomly
         function combineWords() {
             const randomWord1 = list1[Math.floor(Math.random() * list1.length)];
             const randomWord2 = list2[Math.floor(Math.random() * list2.length)];
-            document.getElementById('result').textContent = `${randomWord1} ${randomWord2}`;
+
+            const randomWord3 = list2[Math.floor(Math.random() * list2.length)];
+            const randomWord4 = adverbiosDeModo[Math.floor(Math.random() * adverbiosDeModo.length)];
+            document.getElementById('result').textContent = `${randomWord1} ${randomWord2} con ${randomWord3} ${randomWord4}`;
         }
     </script>
 </body>
