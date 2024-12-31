@@ -456,7 +456,7 @@ var getSysex = function (dco, dcw) {
         getEnvEnd(dco.env),                                             // end step number of dco1 envelope
         getDCORateAndLevel(dco.env),                                    // dco1 envelope rate/level
 
-        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'none'),
+        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'ring'),
         getDcaKeyFollow(rnd(9)),
         getDcwKeyFollow(rnd(9)),
         getEnvEnd(dco.env),
