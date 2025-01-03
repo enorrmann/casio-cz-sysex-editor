@@ -113,18 +113,41 @@ document.addEventListener('DOMContentLoaded', function () {
         crearSlidersPaso(dca1, i);
     }
 
+    for (let i = 1; i <= 8; i++) {
+        crearSlidersPaso(dco2, i);
+    }
+    for (let i = 1; i <= 8; i++) {
+        crearSlidersPaso(dcw2, i);
+    }
+    for (let i = 1; i <= 8; i++) {
+        crearSlidersPaso(dca2, i);
+    }
+
     // Activar el primer botón por defecto
     toggleDcoWaveform(dco1, 1, 1);
     toggleDcoWaveform(dco1, 2, 0);
     toggleDcoWaveform(dco2, 1, 1);
     toggleDcoWaveform(dco2, 2, 0);
+    toggleModulation(1);
+
     toggleSustain(dco1, 1);
     toggleSustain(dcw1, 1);
     toggleSustain(dca1, 1);
     toggleEnd(dco1, 3);
     toggleEnd(dcw1, 3);
     toggleEnd(dca1, 2);
-    toggleModulation(0);
+
+    toggleSustain(dco2, 1);
+    toggleSustain(dcw2, 1);
+    toggleSustain(dca2, 1);
+    toggleEnd(dco2, 3);
+    toggleEnd(dcw2, 3);
+    toggleEnd(dca2, 2);
+
+    toggleLine(0);
+
+
+
 });
 
 
@@ -167,10 +190,46 @@ function toggleModulation(index) {
         btn.classList.toggle('active', i === index);
     });
 
-    //uiChanged();
+    switch (index) {
+        case 0:
+            dcoStructure.modulation = 'none';
+            break;
+        case 1:
+            dcoStructure.modulation = 'ring';
+            break;
+        case 2:
+            dcoStructure.modulation = 'noise';
+            break;
+    }
+
+    uiChanged();
 
 }
 
+function toggleLine(index) {
+    const buttons = document.querySelectorAll('.btn-line-select');
+    buttons.forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+    });
+
+    switch (index) {
+        case 0:
+            dcoStructure.lineSelect = 1;
+            break;
+        case 1:
+            dcoStructure.lineSelect = 2;
+            break;
+        case 2:
+            dcoStructure.lineSelect = 11;
+            break;
+        case 3:
+            dcoStructure.lineSelect = 12;
+            break;
+    }
+
+    uiChanged();
+
+}
 
 
 /* midi stuff*/
