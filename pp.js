@@ -6,13 +6,15 @@ var uiChanged = function () {
     sendSysEx(getSysex(dcoStructure, dco1, dcw1, dca1, dco2, dcw2, dca2), midiOutput);
 }
 
-function initializeRatesAndLevels(env) {
+function initializeRatesAndLevels(rate,level) {
+    var env  = {};
     // Inicializar rates del 1 al 8
     for (let i = 1; i <= 8; i++) {
-        env[`rate${i}`] = 99;
-        env[`level${i}`] = 99;
+        env[`rate${i}`] = rate;
+        env[`level${i}`] = level;
     }
-    env.endStep = 2;
+    env.endStep = 1;
+    env.sustainStep = 1;
 
     return env;
 }
@@ -35,17 +37,17 @@ var dco1 = { name: 'dco1' };
 var dcw1 = { name: 'dcw1' };
 var dca1 = { name: 'dca1' };
 
-dco1.env = initializeRatesAndLevels({});
-dcw1.env = initializeRatesAndLevels({});
-dca1.env = initializeRatesAndLevels({});
+dco1.env = initializeRatesAndLevels(0,99);
+dcw1.env = initializeRatesAndLevels(99,99);
+dca1.env = initializeRatesAndLevels(99,99);
 
 var dco2 = { name: 'dco2' };
 var dcw2 = { name: 'dcw2' };
 var dca2 = { name: 'dca2' };
 
-dco2.env = initializeRatesAndLevels({});
-dcw2.env = initializeRatesAndLevels({});
-dca2.env = initializeRatesAndLevels({});
+dco2.env = initializeRatesAndLevels(0,99);
+dcw2.env = initializeRatesAndLevels(99,99);
+dca2.env = initializeRatesAndLevels(99,99);
 
 // format object
 const numberFormat = {
@@ -71,12 +73,12 @@ document.addEventListener('DOMContentLoaded', function () {
         sliderGroup.classList.add('slider-group');
 
         sliderGroup.innerHTML = `
-            <label class="slider-label">R${numero}:</label>
+            <label class="slider-label">L${numero}:</label>
             <button class="toggle-btn btn-sus-${containerName}" onclick="toggleSustain(${containerName},${numero})">S</button>
             <button class="toggle-btn btn-end-${containerName}" onclick="toggleEnd(${containerName},${numero})">E</button>
-            <div class="slider-vertical" id="${containerName}Rate${numero}"></div>
-            <label class="slider-label">L${numero}:</label>
             <div class="slider-vertical" id="${containerName}Level${numero}"></div>
+            <label class="slider-label">R${numero}:</label>
+            <div class="slider-vertical" id="${containerName}Rate${numero}"></div>
         `;
         slidersContainer.appendChild(sliderGroup);
 
@@ -84,8 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const levelSlider = document.getElementById(`${containerName}Level${numero}`);
 
         [rateSlider, levelSlider].forEach(slider => {
+            var key = slider.id.replace(/^(dco1|dcw1|dca1|dco2|dcw2|dca2)/, '').toLowerCase();
+            var initialValue = container.env[key];
             noUiSlider.create(slider, {
-                start: 50,
+                start: initialValue,
                 orientation: 'vertical',
                 direction: 'rtl',
                 tooltips: [false],
@@ -135,16 +139,13 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleSustain(dco1, 1);
     toggleSustain(dcw1, 1);
     toggleSustain(dca1, 1);
-    toggleEnd(dco1, 3);
-    toggleEnd(dcw1, 3);
-    toggleEnd(dca1, 2);
+    toggleEnd(dco1, dco1.env.endStep);
+    toggleEnd(dcw1, dcw1.env.endStep);
+    toggleEnd(dca1, dca1.env.endStep);
 
     toggleSustain(dco2, 1);
     toggleSustain(dcw2, 1);
     toggleSustain(dca2, 1);
-    toggleEnd(dco2, 3);
-    toggleEnd(dcw2, 3);
-    toggleEnd(dca2, 2);
 
     toggleLine(0);
 
