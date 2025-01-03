@@ -13,7 +13,7 @@ function initializeRatesAndLevels(rate,level) {
         env[`rate${i}`] = rate;
         env[`level${i}`] = level;
     }
-    env.endStep = 1;
+    env.endStep = 2;
     env.sustainStep = 1;
 
     return env;
@@ -37,7 +37,7 @@ var dco1 = { name: 'dco1' };
 var dcw1 = { name: 'dcw1' };
 var dca1 = { name: 'dca1' };
 
-dco1.env = initializeRatesAndLevels(0,99);
+dco1.env = initializeRatesAndLevels(0,0);
 dcw1.env = initializeRatesAndLevels(99,99);
 dca1.env = initializeRatesAndLevels(99,99);
 
@@ -45,7 +45,7 @@ var dco2 = { name: 'dco2' };
 var dcw2 = { name: 'dcw2' };
 var dca2 = { name: 'dca2' };
 
-dco2.env = initializeRatesAndLevels(0,99);
+dco2.env = initializeRatesAndLevels(0,0);
 dcw2.env = initializeRatesAndLevels(99,99);
 dca2.env = initializeRatesAndLevels(99,99);
 
@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleSustain(dco1, 1);
     toggleSustain(dcw1, 1);
     toggleSustain(dca1, 1);
+    
     toggleEnd(dco1, dco1.env.endStep);
     toggleEnd(dcw1, dcw1.env.endStep);
     toggleEnd(dca1, dca1.env.endStep);
@@ -146,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleSustain(dco2, 1);
     toggleSustain(dcw2, 1);
     toggleSustain(dca2, 1);
+
+
+    toggleEnd(dco2, dco2.env.endStep);
+    toggleEnd(dcw2, dcw2.env.endStep);
+    toggleEnd(dca2, dca2.env.endStep);
 
     toggleLine(0);
 

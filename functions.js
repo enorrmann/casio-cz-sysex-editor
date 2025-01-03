@@ -243,7 +243,12 @@ function getDCARateAndLevel(params) {
 
     // Procesamiento de cada par de rate y level
     for (let i = 0; i < 8; i++) {
-        const rateHex = Math.trunc((119 * rates[i]) / 99).toString(16).toUpperCase().padStart(2, "0");
+        var rate = Math.trunc((119 * rates[i]) / 99);
+        if (i > 0 && levels[i - 1] > levels[i]) {
+            rate += 128; // add 128 if this level is going down
+        }
+
+        const rateHex = rate.toString(16).toUpperCase().padStart(2, "0");
 
         // Ajustar el level si corresponde al sustainStep
         let adjustedLevel = levels[i];
@@ -471,7 +476,7 @@ var getSysex = function (dcoStructure, dco1, dcw1, dca1, dco2, dcw2, dca2) {
         getDCWRateAndLevel(dcw2.env),                                    // dcw2 envelope rate/level
         getEnvEnd(dco2.env),                                             // end step number of dco2 envelope
         getDCORateAndLevel(dco2.env),                                    // dco2 envelope rate/level
-        
+
         sysexEnd
 
 
