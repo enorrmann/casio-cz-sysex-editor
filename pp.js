@@ -1,7 +1,9 @@
 
 var midiOutput;
+var activateMidi = true; // for debugging stuff
+
 var uiChanged = function () {
-    sendSysEx(getSysex(dcoStructure, dco1, dcw1), midiOutput);
+    sendSysEx(getSysex(dcoStructure, dco1, dcw1, dca1, dco2, dcw2, dca2), midiOutput);
 }
 
 function initializeRatesAndLevels(env) {
@@ -155,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
 /*botones */
 function toggleDcoWaveform(dco, oscNumber, index) {
     const selector = '.btn-' + dco.name + '-wave' + oscNumber;
-    console.log(selector);
     const buttons = document.querySelectorAll(selector);
     buttons.forEach((btn, i) => {
         btn.classList.toggle('active', i === index);
@@ -220,10 +221,10 @@ function toggleLine(index) {
             dcoStructure.lineSelect = 2;
             break;
         case 2:
-            dcoStructure.lineSelect = 11;
+            dcoStructure.lineSelect = 12;
             break;
         case 3:
-            dcoStructure.lineSelect = 12;
+            dcoStructure.lineSelect = 11;
             break;
     }
 
@@ -235,16 +236,16 @@ function toggleLine(index) {
 /* midi stuff*/
 
 let midiAccess = null;
-const select = document.getElementById('midiSelect');
-const status = document.getElementById('status');
+
 
 // Inicializar MIDI
-if (false && navigator.requestMIDIAccess) {
+if (navigator.requestMIDIAccess) {
 
     navigator.requestMIDIAccess({ sysex: true })
         .then(onMIDISuccess)
         .catch(onMIDIFailure);
 } else {
+    const status = document.getElementById('status');
     status.className = 'error';
     status.textContent = 'Tu navegador no soporta MIDI';
 }
@@ -262,6 +263,7 @@ function onMIDISuccess(access) {
 
 // Si hay un error al acceder a MIDI
 function onMIDIFailure(error) {
+    const status = document.getElementById('status');
     status.className = 'error';
     status.textContent = 'Error al acceder a MIDI: ' + error;
 }
@@ -269,6 +271,24 @@ function onMIDIFailure(error) {
 // Actualizar lista de dispositivos
 function updateDeviceList(event) {
     // Limpiar opciones existentes excepto la primera
+    const select = document.getElementById('midiSelect');
+    const status = document.getElementById('status');
+
+    // Manejar selección de puerto
+    select.addEventListener('change', function (e) {
+        const selectedId = e.target.value;
+
+        if (selectedId) {
+            midiOutput = Array.from(midiAccess.outputs.values())
+                .find(output => output.id === selectedId);
+
+            status.className = 'info';
+            //status.textContent = `Puerto seleccionado: ${midiOutput.name} ${midiOutput.id}`;
+            status.textContent = `Puerto seleccionado: ${midiOutput.name}`;
+        } else {
+            midiOutput = null;
+        }
+    });
     while (select.options.length > 1) {
         select.options.remove(1);
     }
@@ -281,7 +301,8 @@ function updateDeviceList(event) {
         hasDevices = true;
         const option = document.createElement('option');
         option.value = output.id;
-        option.text = output.name + ' ' + output.id;
+        //option.text = output.name + ' ' + output.id;
+        option.text = output.name;
         select.add(option);
     }
 
@@ -294,17 +315,4 @@ function updateDeviceList(event) {
     }
 }
 
-// Manejar selección de puerto
-select.addEventListener('change', function (e) {
-    const selectedId = e.target.value;
-    if (selectedId) {
-        midiOutput = Array.from(midiAccess.outputs.values())
-            .find(output => output.id === selectedId);
 
-        status.className = 'info';
-        status.textContent = `Puerto seleccionado: ${midiOutput.name} ${midiOutput.id}`;
-        console.log('Puerto MIDI seleccionado:', midiOutput.name);
-    } else {
-        midiOutput = null;
-    }
-});

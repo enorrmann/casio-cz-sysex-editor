@@ -367,14 +367,14 @@ function getDCORateAndLevel(params) {
 
 var getDetuneSign = function (sign) {
     if (sign > 0) {
-        splitHexValue("00"); // 00 is +, 01 is -
+        return splitHexValue("00"); // 00 is +, 01 is -
     } else {
-        splitHexValue("01"); // 00 is +, 01 is -
+        return splitHexValue("01"); // 00 is +, 01 is -
     }
 
 }
 
-var getSysex = function (dcoStructure, dco, dcw) {
+var getSysex = function (dcoStructure, dco1, dcw1, dca1, dco2, dcw2, dca2) {
     const pitchEnv = {
         rate1: 99,
         level1: 0,
@@ -435,7 +435,6 @@ var getSysex = function (dcoStructure, dco, dcw) {
         sustainStep: 1,
         endStep: 2
     };
-
     var octaveAndLine = getOctaveAndLineSelect(dcoStructure.octave, dcoStructure.lineSelect); // octave, line selector 11 and 12 are 1+1 and 1+2
     var detune = getDetuneSign(dcoStructure.detune.sign);
     var detuneRange = getDetuneRange(dcoStructure.detune.fine, dcoStructure.detune.octave, dcoStructure.detune.note); // fine, oct, note
@@ -453,27 +452,26 @@ var getSysex = function (dcoStructure, dco, dcw) {
         getVibratoRate(0),
         getVibratoDepth(0),
 
-        getDcoWaveform(dco.waveForm1, dco.waveForm2, dcoStructure.modulation),           // dco1 waveform
+        getDcoWaveform(dco1.waveForm1, dco1.waveForm2, dcoStructure.modulation),           // dco1 waveform
         getDcaKeyFollow(1),                                             // dca1 key follow
         getDcwKeyFollow(1),                                             // dcw1 key follow
+        getEnvEnd(dca1.env),                                            // end step number of dca1 envelope
+        getDCARateAndLevel(dca1.env),                                   // dca1 envelope rate/level
+        getEnvEnd(dcw1.env),                                             // end step number of dcw1 envelope
+        getDCWRateAndLevel(dcw1.env),                                    // dcw1 envelope rate/level
+        getEnvEnd(dco1.env),                                             // end step number of dco1 envelope
+        getDCORateAndLevel(dco1.env),                                    // dco1 envelope rate/level
 
-        getEnvEnd(randomParams),                                        // end step number of dca1 envelope
-        getDCARateAndLevel(randomParams),                               // dca1 envelope rate/level
-
-        getEnvEnd(dcw.env),                                             // end step number of dcw1 envelope
-        getDCWRateAndLevel(dcw.env),                                    // dcw1 envelope rate/level
-        getEnvEnd(dco.env),                                             // end step number of dco1 envelope
-        getDCORateAndLevel(dco.env),                                    // dco1 envelope rate/level
-
-        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'none'),
-        getDcaKeyFollow(rnd(9)),
-        getDcwKeyFollow(rnd(9)),
-        getEnvEnd(dco.env),
-        getDCARateAndLevel(randomParams),
-        getEnvEnd(dco.env),
-        getDCWRateAndLevel(randomParams),
-        getEnvEnd(dco.env),
-        getDCORateAndLevel(randomParams),
+        getDcoWaveform(dco2.waveForm1, dco2.waveForm2, 'none'),
+        getDcaKeyFollow(1),                                             // dca2 key follow
+        getDcwKeyFollow(1),                                             // dcw2 key follow
+        getEnvEnd(dca2.env),                                            // end step number of dca2 envelope
+        getDCARateAndLevel(dca2.env),                                   // dca2 envelope rate/level
+        getEnvEnd(dcw2.env),                                             // end step number of dcw2 envelope
+        getDCWRateAndLevel(dcw2.env),                                    // dcw2 envelope rate/level
+        getEnvEnd(dco2.env),                                             // end step number of dco2 envelope
+        getDCORateAndLevel(dco2.env),                                    // dco2 envelope rate/level
+        
         sysexEnd
 
 
