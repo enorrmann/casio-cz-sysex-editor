@@ -1,7 +1,7 @@
 
 var midiOutput;
 var uiChanged = function () {
-    sendSysEx(getSysex(dco1, dcw1), midiOutput);
+    sendSysEx(getSysex(dcoStructure, dco1, dcw1), midiOutput);
 }
 
 function initializeRatesAndLevels(env) {
@@ -16,8 +16,18 @@ function initializeRatesAndLevels(env) {
 }
 
 
-// number of decimal places 
-const decimals = 0;
+var dcoStructure = {
+    modulation: 'none',
+    octave: 0,
+    lineSelect: 11,
+    detune: {
+        octave: 0,
+        note: 0,
+        fine: 0,
+        sign: 1
+    }
+
+};
 
 var dco1 = { name: 'dco1' };
 var dcw1 = { name: 'dcw1' };
@@ -39,7 +49,7 @@ dca2.env = initializeRatesAndLevels({});
 const numberFormat = {
     // 'to' the formatted value. Receives a number.
     to: function (value) {
-        return value.toFixed(decimals);
+        return value.toFixed(0); // 0 decimals
     },
     // 'from' the formatted value.
     // Receives a string, should return a number.
@@ -114,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleEnd(dco1, 3);
     toggleEnd(dcw1, 3);
     toggleEnd(dca1, 2);
+    toggleModulation(0);
 });
 
 
@@ -147,6 +158,16 @@ function toggleEnd(container, index) {
     });
     env.endStep = index;
     uiChanged();
+
+}
+
+function toggleModulation(index) {
+    const buttons = document.querySelectorAll('.btn-modulation');
+    buttons.forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+    });
+
+    //uiChanged();
 
 }
 

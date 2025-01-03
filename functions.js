@@ -365,7 +365,16 @@ function getDCORateAndLevel(params) {
     return resultValues.join(' ');
 }
 
-var getSysex = function (dco, dcw) {
+var getDetuneSign = function (sign) {
+    if (sign > 0) {
+        splitHexValue("00"); // 00 is +, 01 is -
+    } else {
+        splitHexValue("01"); // 00 is +, 01 is -
+    }
+
+}
+
+var getSysex = function (dcoStructure, dco, dcw) {
     const pitchEnv = {
         rate1: 99,
         level1: 0,
@@ -403,7 +412,7 @@ var getSysex = function (dco, dcw) {
         rate8: 99,
         level8: 99,
         sustainStep: 1,
-        endStep :2
+        endStep: 2
     };
 
     const dcoEnvTest = {
@@ -424,12 +433,12 @@ var getSysex = function (dco, dcw) {
         rate8: 99,
         level8: 99,
         sustainStep: 1,
-        endStep :2
+        endStep: 2
     };
 
-    var octaveAndLine = getOctaveAndLineSelect(0, 11); // octave, line selector 11 and 12 are 1+1 and 1+2
-    var detune = splitHexValue("01"); // 00 is +, 01 is -
-    var detuneRange = getDetuneRange(13, 0, 0); // fine, oct, note
+    var octaveAndLine = getOctaveAndLineSelect(dcoStructure.octave, dcoStructure.lineSelect); // octave, line selector 11 and 12 are 1+1 and 1+2
+    var detune = getDetuneSign(dcoStructure.detune.sign);
+    var detuneRange = getDetuneRange(dcoStructure.detune.fine, dcoStructure.detune.octave, dcoStructure.detune.note); // fine, oct, note
     var vibratoWaveNmber = getVibratoWaveNumber(3);
     var vibTime = getVibratoDelayTime(0);
 
@@ -444,7 +453,7 @@ var getSysex = function (dco, dcw) {
         getVibratoRate(0),
         getVibratoDepth(0),
 
-        getDcoWaveform(dco.waveForm1, dco.waveForm2, 'ring'),           // dco1 waveform
+        getDcoWaveform(dco.waveForm1, dco.waveForm2, dcoStructure.modulation),           // dco1 waveform
         getDcaKeyFollow(1),                                             // dca1 key follow
         getDcwKeyFollow(1),                                             // dcw1 key follow
 
@@ -456,7 +465,7 @@ var getSysex = function (dco, dcw) {
         getEnvEnd(dco.env),                                             // end step number of dco1 envelope
         getDCORateAndLevel(dco.env),                                    // dco1 envelope rate/level
 
-        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'ring'),
+        getDcoWaveform(dco.waveForm1, dco.waveForm1, 'none'),
         getDcaKeyFollow(rnd(9)),
         getDcwKeyFollow(rnd(9)),
         getEnvEnd(dco.env),
@@ -492,7 +501,7 @@ var getSysex = function (dco, dcw) {
 }*/
 
 // Send SysEx data to the MIDI output
-async function sendSysEx(hexString,midiOutput) {
+async function sendSysEx(hexString, midiOutput) {
     //var midiOutput = firstOutput;
     try {
         // Convert hex string to Uint8Array

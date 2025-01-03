@@ -26,6 +26,8 @@ body {
     background-color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
+    position: relative;
+
 }
 
 .forma-onda {
@@ -98,11 +100,6 @@ body {
     background: #777;
 }
 
-.noUi-vertical .noUi-handle:before,
-.noUi-vertical .noUi-handle:after {
-    display: none;
-}
-
 .noUi-target {
     background: #444;
     border-radius: 4px;
@@ -149,6 +146,7 @@ body {
     background-color: #333;
     margin-bottom: 1rem;
     box-sizing: border-box;
+    display: none;
 }
 
 select {
@@ -200,3 +198,15 @@ h3 {
     }
 
 }
+
+/* Header styling 
+.contenedor h2,
+.contenedor h3 {
+    position: absolute;
+    top: -1rem;
+    left: 1rem;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+*/
