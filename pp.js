@@ -2,6 +2,15 @@
 var midiOutput;
 var activateMidi = true; // for debugging stuff
 
+var randomize = function(selector){ // por ejemplo dco1
+    console.log(selector);
+    var pp = document.querySelectorAll('[id^="'+selector+'"]');
+    pp.forEach(slider => {
+        slider.noUiSlider.set(rnd(99));
+    });
+
+}
+
 var uiChanged = function () {
     sendSysEx(getSysex(dcoStructure, dco1, dcw1, dca1, dco2, dcw2, dca2), midiOutput);
 }
@@ -290,8 +299,8 @@ function updateDeviceList(event) {
                 .find(output => output.id === selectedId);
 
             status.className = 'info';
-            //status.textContent = `Puerto seleccionado: ${midiOutput.name} ${midiOutput.id}`;
-            status.textContent = `Puerto seleccionado: ${midiOutput.name}`;
+            status.textContent = `Puerto seleccionado: ${midiOutput.name} ${midiOutput.id}`;
+            //status.textContent = `Puerto seleccionado: ${midiOutput.name}`;
         } else {
             midiOutput = null;
         }
@@ -308,8 +317,8 @@ function updateDeviceList(event) {
         hasDevices = true;
         const option = document.createElement('option');
         option.value = output.id;
-        //option.text = output.name + ' ' + output.id;
-        option.text = output.name;
+        option.text = output.name + ' ' + output.id;
+        //option.text = output.name;
         select.add(option);
     }
 

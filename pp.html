@@ -35,8 +35,8 @@
         <div class="contenedor">
             <h3>Modulation</h3>
             <div class="toggle-container">
-                <button class="toggle-btn btn-line-select" onclick="toggleLine(0)">  1 </button>
-                <button class="toggle-btn btn-line-select" onclick="toggleLine(1)">  2 </button>
+                <button class="toggle-btn btn-line-select" onclick="toggleLine(0)"> 1 </button>
+                <button class="toggle-btn btn-line-select" onclick="toggleLine(1)"> 2 </button>
                 <button class="toggle-btn btn-line-select" onclick="toggleLine(2)"> 1+2' </button>
                 <button class="toggle-btn btn-line-select" onclick="toggleLine(3)"> 1+1' </button>
             </div>
@@ -105,32 +105,51 @@
 
         </div>
     </div>
+
     <div class="row">
         <div class="contenedor">
-            <h3>DCO 1</h3>
+            <div class="row">
+                <div class="label">DCO 1</div>
+                <button class="toggle-btn" onclick="randomize('dco1')"> Randomize </button>
+            </div>
             <div class="dco1-env-container sliders-container"> </div>
         </div>
         <div class="contenedor">
-            <h3>DCW 1</h3>
+            <div class="row">
+                <div class="label">DCW 1</div>
+                <button class="toggle-btn" onclick="randomize('dcw1')"> Randomize </button>
+            </div>
             <div class="dcw1-env-container sliders-container"> </div>
         </div>
         <div class="contenedor">
-            <h3>DCA 1</h3>
+            <div class="row">
+                <div class="label">DCA 1</div>
+                <button class="toggle-btn" onclick="randomize('dca1')"> Randomize </button>
+            </div>
             <div class="dca1-env-container sliders-container"> </div>
         </div>
     </div>
 
     <div class="row">
         <div class="contenedor">
-            <h3>DCO 2</h3>
+            <div class="row">
+                <div class="label">DCO 2</div>
+                <button class="toggle-btn" onclick="randomize('dco2')"> Randomize </button>
+            </div>
             <div class="dco2-env-container sliders-container"> </div>
         </div>
         <div class="contenedor">
-            <h3>DCW 2</h3>
+            <div class="row">
+                <div class="label">DCW 2</div>
+                <button class="toggle-btn" onclick="randomize('dcw2')"> Randomize </button>
+            </div>
             <div class="dcw2-env-container sliders-container"> </div>
         </div>
         <div class="contenedor">
-            <h3>DCA 2</h3>
+            <div class="row">
+                <div class="label">DCA 2</div>
+                <button class="toggle-btn" onclick="randomize('dca2')"> Randomize </button>
+            </div>
             <div class="dca2-env-container sliders-container"> </div>
         </div>
     </div>
